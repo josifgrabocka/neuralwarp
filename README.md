@@ -12,4 +12,4 @@ A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Simil
 * E.g. to run the method WarpedSiameseRNN for the dataset shar, call "python3 -u main.py shar/ WarpedSiameseRNN"
 * The method option is one of SiameseRNN, WarpedSiameseRNN, CNNSim, CNNWarpedSim
 * The checkpoint files will be stored under the "saved_models" folder
-* To test with the checkpoint after X iterations run "python3 -u inference.py test WarpedSiameseRNN saved_models/WarpedSiameseRNN__shar.ckpt-X 0.0 1.0"
+* To test with the checkpoint after X iterations run "python3 -u inference.py test WarpedSiameseRNN saved_models/WarpedSiameseRNN__shar.ckpt-X shar/ 0.0 1.0"
