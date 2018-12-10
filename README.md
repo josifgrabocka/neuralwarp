@@ -4,6 +4,7 @@ A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Simil
 
 ## Running the code
 
+* Clone the repository locally "git clone https://github.com/josifgrabocka/deepwarp.git"
 * Install dependencies, tensorflow, scikit-learn, etc ...
 * E.g. to run the method WarpedSiameseRNN for the dataset shar, call "python3 -u main.py shar WarpedSiameseRNN"
 * The method option is one of SiameseRNN, WarpedSiameseRNN, CNNSim, CNNWarpedSim
