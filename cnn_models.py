@@ -106,7 +106,7 @@ class CNNWarpedSim(CNNSim):
             self.warp_weights = tf.layers.dense(inputs=self.warp_weights, activation=tf.nn.sigmoid, units=1,
                                                 name='WarpingWeights')
 
-            # the squared euclidean distance of all pairs
+            # the distance of all pairs
             A_minus_B_square = tf.abs(tf.subtract(self.A_expanded, self.B_expanded))
             self.pairs_dists = tf.expand_dims(tf.reduce_mean(A_minus_B_square, axis=1), axis=-1, name='PairsDists')
 
