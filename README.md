@@ -4,4 +4,7 @@ A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Simil
 
 ## Running the code
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+* Install dependencies, tensorflow, scikit-learn, etc ...
+* E.g. to run the method WarpedSiameseRNN for the dataset shar, call "python3 -u main.py shar WarpedSiameseRNN"
+* The method option is one of SiameseRNN, WarpedSiameseRNN, CNNSim, CNNWarpedSim
+* We provide a direct link to an example dataset, located under folder shar
