@@ -3,7 +3,7 @@
 A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Similarity with Deep Warping Networks"
 
 * We provide a direct link to one example dataset, located under folder shar
-* The code was tested on Nvidia GTX 1080 Ti GPU with the Anaconda installation of Tensorflow
+* The code was tested on Nvidia GTX 1080 Ti GPU with the Anaconda installation of Python 3 dependencies
 
 ## Training DeepWarp
 
