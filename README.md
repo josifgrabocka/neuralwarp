@@ -12,6 +12,7 @@ A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Simil
 * To train the method WarpedSiameseRNN for the dataset shar, call "python3 -u main.py shar/ WarpedSiameseRNN"
 * The method option is one of SiameseRNN, WarpedSiameseRNN, CNNSim, CNNWarpedSim
 * A checkpoint of the deep learning model will be saved under the "saved_models" folder every 1000 batches
+' This could take a long time, depending on the size of the data!
 
 ## Testing DeepWarp
 
