@@ -71,7 +71,7 @@ class Optimizer:
             self.sim_model.true_similarities: sim_batch,
             self.sim_model.is_training: False})
 
-        # update the pos idxs
+        # update the loss wrt the batch
         sess.run(self.sim_model.update_rule,
                  feed_dict={self.sim_model.X_batch: X_batch,
                             self.sim_model.true_similarities: sim_batch,
