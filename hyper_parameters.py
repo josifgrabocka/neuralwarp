@@ -23,8 +23,6 @@ class HyperParams:
         config['uniwarp:dropout_rate'] = 0.05
         config['uniwarp:enable_batch_normalization'] = True
         config['dataset:num_channels'] = 1
-        config['mode:transductive'] = True
-        config['mode:transductive_class'] = 0
 
         return config
 
