@@ -8,7 +8,7 @@ A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Simil
 ## Training DeepWarp
 
 * Clone the repository locally "git clone https://github.com/josifgrabocka/deepwarp.git && cd deepwarp/"
-* Install dependencies, python3, numpy, tensorflow, scikit-learn, etc ... We have only tested the package installation only through the Anaconda.
+* Install dependencies, python3, numpy, tensorflow, scikit-learn, etc ... We have only tested the package installation through the Anaconda.
 * To train the method WarpedSiameseRNN for the dataset shar, call "python3 -u main.py shar/ WarpedSiameseRNN"
 * The method option is one of SiameseRNN, WarpedSiameseRNN, CNNSim, CNNWarpedSim
 * A checkpoint of the deep learning model will be saved under the "saved_models" folder every 1000 batches
