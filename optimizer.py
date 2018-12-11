@@ -15,11 +15,7 @@ class Optimizer:
 
 
     def optimize(self):
-
-        # save the hyper_parameters before the optimization
-        #with open("./saved_models/" + self.sim_model.name + "_hyper_params.json", "w") as hyper_params_file:
-        #    json.dump(self.config, hyper_params_file)
-
+        
         with tf.Session() as sess:
 
             # initialize all variables
