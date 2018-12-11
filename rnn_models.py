@@ -10,7 +10,7 @@ class RNNAbstractSimModel(AbstractSimModel):
 
         self.cells_bwd, self.cells_bwd = None, None
         self.h_fw, self.h_bw = None, None
-        self.name = 'RNNSingleAbstractSimModel'
+        self.name = 'RNNAbstractSimModel'
 
     # the rnn decoder produces the forward and backward activations
     def create_encoder(self):
