@@ -11,7 +11,7 @@ class Optimizer:
         self.num_epochs = self.config['optimizer:num_epochs']
         self.sim_model = sim_model
         # create a saver
-        self.saver = tf.train.Saver(max_to_keep=100)
+        self.saver = tf.train.Saver(max_to_keep=1000)
 
 
     def optimize(self):
