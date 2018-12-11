@@ -13,6 +13,7 @@ A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Simil
 * The method option is one of SiameseRNN, WarpedSiameseRNN, CNNSim, CNNWarpedSim
 * A checkpoint of the deep learning model will be saved under the "saved_models" folder every 1000 batches
 * The learning algorithm should print to the console the averge similarity loss after every 1000 batches
+* Warning: Training Deep Learning models on plain CPUs machines can be prohibitive in terms of runtime.
 
 ## Testing DeepWarp
 
