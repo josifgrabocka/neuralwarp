@@ -21,4 +21,4 @@ A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Simil
 * The last two parameters of the inference.py fila are the percentual starting index at the test set and the percentual size of the test instances to be classified, e.g. 0.0 1.0 means starting at 0%-th test series predict the target of 100% of the test set.
 * The logs of the inference.py file will output the test series index and the classification accuracy so far.
 
-* We provide a trained checkpoints for all the four Siamese CNN and RNN models (warped and unwarped) named as trained_{MODEL_NAME}_shar.*.
+* We provide a trained checkpoints for all the four Siamese CNN and RNN models (warped and unwarped) under the trained_models folder. E.g. to test with a trained WarpedSiameseRNN network run python3 -u inference.py test WarpedSiameseRNN trained_models/trained_WarpedSiameseRNN_shar.ckpt shar/ 0.0 1.0
