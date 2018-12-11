@@ -2,13 +2,13 @@
 
 A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Similarity with Deep Warping Networks"
 
-* We provide a direct link to an example dataset, located under folder shar
+* We provide a direct link to one example dataset, located under folder shar
 * The code was tested on Nvidia GTX 1080 Ti GPU with the Anaconda installation of Tensorflow
 
 ## Training DeepWarp
 
 * Clone the repository locally "git clone https://github.com/josifgrabocka/deepwarp.git && cd deepwarp/"
-* Install dependencies, tensorflow, scikit-learn, etc ...
+* Install dependencies, python3, numpy, tensorflow, scikit-learn, etc ... We have only tested the package installation only through the Anaconda.
 * To train the method WarpedSiameseRNN for the dataset shar, call "python3 -u main.py shar/ WarpedSiameseRNN"
 * The method option is one of SiameseRNN, WarpedSiameseRNN, CNNSim, CNNWarpedSim
 * A checkpoint of the deep learning model will be saved under the "saved_models" folder every 1000 batches
