@@ -1,6 +1,6 @@
 # Nerual Warp
 
-A supporting website for the paper "Grabocka et al., DeepWarp: Time-Series Similarity with Deep Warping Networks"
+A supporting website for the paper "NeuralWarp: Time-Series Similarity with Warping Networks"
 
 * We provide a direct link to one example dataset, located under folder shar
 * The code was tested on Nvidia GTX 1080 Ti GPU with the Anaconda installation of Python 3 dependencies
