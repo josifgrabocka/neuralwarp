@@ -10,7 +10,7 @@ class RNNAbstractSimModel(AbstractSimModel):
 
         self.cells_bwd, self.cells_bwd = None, None
         self.h_fw, self.h_bw = None, None
-        self.name = 'RNNAbstractSimModel'
+        self.name = 'RNNSingleAbstractSimModel'
 
     # the rnn decoder produces the forward and backward activations
     def create_encoder(self):
@@ -117,7 +117,7 @@ class WarpedSiameseRNN(SiameseRNN):
             # a final linear layer for the warping weights output in [0, 1]
             warp_weights = tf.layers.dense(inputs=warp_weights, activation=tf.nn.sigmoid, units=1)
 
-            # the distance of all pairs
+            # the squared euclidean distance of all pairs
             A_minus_B_square = tf.abs(tf.subtract(A_expanded, B_expanded))
             pairs_dists = tf.expand_dims(tf.reduce_mean(A_minus_B_square, axis=1), axis=-1, name='PairsDists')
 
