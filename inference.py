@@ -6,6 +6,7 @@ import rnn_models
 import cnn_models
 import sys
 import os
+import sklearn.metrics
 
 class Inference_Experiments:
 
@@ -51,6 +52,8 @@ class Inference_Experiments:
                                        self.config['dataset:num_channels']))
         # a batch similarity
         self.true_sim_batch = np.zeros((self.config['model:num_batch_pairs'],))
+
+        print('Model has', self.model.num_model_parameters(), 'parameters')
 
     # infer the target of the test instances of a dataset
     # starting from the {start_pct} percentage of the instances for {chunk_pct} many instances
@@ -106,7 +109,6 @@ class Inference_Experiments:
 
                 print(idx_test, correct / num_infers)
 
-
             print(num_infers, correct, time, dataset_path)
 
     # the pairwise similarities of the test series
@@ -144,7 +146,7 @@ class Inference_Experiments:
                     self.X_batch[2 * i] = self.ds.X_test[pairs_list[j][0]]
                     self.X_batch[2 * i + 1] = self.ds.X_test[pairs_list[j][1]]
 
-                print('batch starting at', batch_start_pair_idx)
+                #print('batch starting at', batch_start_pair_idx)
 
                 # measure the similarity between the test series and the training batch series
                 sim = sess.run(self.model.pred_similarities,
@@ -168,6 +170,95 @@ class Inference_Experiments:
             np.save(os.path.join(folder_path, self.model.name + '_' + self.ds.dataset_name + "_dists.npy"), dists)
             np.save(os.path.join(folder_path, self.model.name + '_' + self.ds.dataset_name + "_labels.npy"), self.ds.Y_test[:num_test_series])
 
+    # the pairwise similarities of the test series
+    def pairwise_test_accuracy(self, num_test_batches):
+
+        test_acc = 0
+
+        with tf.Session() as sess:
+
+            self.saver.restore(sess, self.model_file)
+
+            for i in range(num_test_batches):
+
+                # draw the random test batch
+                batch_pairs_idxs = []
+                batch_true_similarities = []
+                for j in range(self.config['model:num_batch_pairs'] // 2):
+                    pos_idxs = self.ds.draw_test_pair(True)
+                    batch_pairs_idxs.append(pos_idxs[0])
+                    batch_pairs_idxs.append(pos_idxs[1])
+                    batch_true_similarities.append(1.0)
+
+                    neg_idxs = self.ds.draw_test_pair(False)
+                    batch_pairs_idxs.append(neg_idxs[0])
+                    batch_pairs_idxs.append(neg_idxs[1])
+                    batch_true_similarities.append(0.0)
+                # the numpy tensors of the series and ground truth similarities
+                X_batch = np.take(a=self.ds.X_test, indices=batch_pairs_idxs, axis=0)
+                sim_batch = np.asarray(batch_true_similarities)
+
+                # measure the batch loss of the model
+                pred_similarities = sess.run(self.model.pred_similarities, feed_dict={
+                            self.model.X_batch: X_batch,
+                            self.model.true_similarities: sim_batch,
+                            self.model.is_training: False})
+
+                pred_label = np.where(pred_similarities >= 0.5, 1, 0)
+
+                test_acc += sklearn.metrics.accuracy_score(sim_batch, pred_label)
+
+                # print progress
+                print(i, test_acc / (i+1))
+
+        # print test batches
+        print(test_acc / num_test_batches)
+
+
+    # the pairwise similarities of the test series
+    def transductive_test_loss(self):
+
+        test_loss = 0
+
+        with tf.Session() as sess:
+
+            self.saver.restore(sess, self.model_file)
+
+            for i in range(num_test_batches):
+
+                # draw the random test batch
+                batch_pairs_idxs = []
+                batch_true_similarities = []
+                for j in range(self.config['model:num_batch_pairs'] // 2):
+                    pos_idxs = self.ds.draw_test_pair(True)
+                    batch_pairs_idxs.append(pos_idxs[0])
+                    batch_pairs_idxs.append(pos_idxs[1])
+                    batch_true_similarities.append(1.0)
+
+                    neg_idxs = self.ds.draw_test_pair(False)
+                    batch_pairs_idxs.append(neg_idxs[0])
+                    batch_pairs_idxs.append(neg_idxs[1])
+                    batch_true_similarities.append(0.0)
+                # the numpy tensors of the series and ground truth similarities
+                X_batch = np.take(a=self.ds.X_test, indices=batch_pairs_idxs, axis=0)
+                sim_batch = np.asarray(batch_true_similarities)
+
+                # measure the batch loss of the model
+                batch_loss = sess.run(self.model.loss, feed_dict={
+                            self.model.X_batch: X_batch,
+                            self.model.true_similarities: sim_batch,
+                            self.model.is_training: False})
+
+                test_loss += batch_loss
+
+                # print progress
+                print(i, test_loss / (i+1))
+
+        # print test batches
+        print(test_loss / num_test_batches)
+
+
+
 # the main file for the experiments
 choice = sys.argv[1]
 model_type = sys.argv[2]
@@ -181,7 +272,8 @@ if choice == 'test':
     start_pct = float(sys.argv[5])
     chunk_pct = float(sys.argv[6])
 elif choice == 'pairwise':
-    save_folder = sys.argv[5]
+    num_test_batches = int(sys.argv[5])
+
 
 #model_type = "SiameseRNN"
 #model_file = "/home/josif/ownCloud/research/parametricwarp/saved_models/SiameseRNN_satellite_0.ckpt-99"
@@ -196,5 +288,6 @@ ie = Inference_Experiments(model_type=model_type,
 if choice == 'test':
     ie.infer_dataset(start_pct, chunk_pct)
 elif choice == 'pairwise':
-    n = ie.ds.num_test_instances
-    ie.test_pairwise_similarities(n, save_folder)
+    ie.pairwise_test_accuracy(num_test_batches)
+
+

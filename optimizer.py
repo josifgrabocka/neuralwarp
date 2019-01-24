@@ -11,17 +11,21 @@ class Optimizer:
         self.num_epochs = self.config['optimizer:num_epochs']
         self.sim_model = sim_model
         # create a saver
-        self.saver = tf.train.Saver(max_to_keep=1000)
+        self.saver = tf.train.Saver(max_to_keep=100)
 
 
     def optimize(self):
-        
+
+        # save the hyper_parameters before the optimization
+        #with open("./saved_models/" + self.sim_model.name + "_hyper_params.json", "w") as hyper_params_file:
+        #    json.dump(self.config, hyper_params_file)
+
         with tf.Session() as sess:
 
             # initialize all variables
             sess.run(tf.global_variables_initializer())
             loss = 0
-            freq=1000
+            freq=100
 
             # iterate for a number of epochs
             for epoch_idx in range(self.num_epochs):
@@ -67,7 +71,7 @@ class Optimizer:
             self.sim_model.true_similarities: sim_batch,
             self.sim_model.is_training: False})
 
-        # update the loss wrt the batch
+        # update the deep similarity network
         sess.run(self.sim_model.update_rule,
                  feed_dict={self.sim_model.X_batch: X_batch,
                             self.sim_model.true_similarities: sim_batch,

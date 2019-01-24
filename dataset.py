@@ -35,8 +35,6 @@ class Dataset:
         self.series_length = X_train.shape[1]
         self.num_channels = X_train.shape[2]
 
-
-
         # the num of instances
         self.num_instances = self.num_train_instances + self.num_test_instances
 
@@ -46,7 +44,7 @@ class Dataset:
         self.Y_train_multiclass = Y_train
 
         onehot_encoder = preprocessing.OneHotEncoder(sparse=False)
-        onehot_encoder = onehot_encoder.fit(Y_train)
+        onehot_encoder = onehot_encoder.fit(np.concatenate((Y_train, Y_test), axis=0))
 
         Y_train_ohe = onehot_encoder.transform(Y_train)
         Y_test_ohe = onehot_encoder.transform(Y_test)
@@ -58,6 +56,10 @@ class Dataset:
         ds_path, fold = os.path.split(path)
         root, ds_name = os.path.split(ds_path)
         self.dataset_name = ds_name + "_" + fold
+
+
+        print('Train shape', self.X_train.shape)
+        print('Test shape', self.X_test.shape)
 
         #print(self.dataset_name, 'num_train_instances', self.num_train_instances, 'series_length', self.series_length,
         #      'num_channels', self.num_channels, 'num_classes', self.num_classes)
@@ -124,6 +126,8 @@ class Dataset:
 
         self.num_channels = 1
 
+        print('Train shape', self.X_train.shape)
+        print('Test shape', self.X_test.shape)
 
     # draw a random set of instances from the training set
     def draw_batch(self, batch_size):
@@ -166,6 +170,21 @@ class Dataset:
                 if not np.array_equal(self.Y_train[first_idx], self.Y_train[second_idx]):
                     return first_idx, second_idx
 
+    # draw a random set of instances from the training set
+    def draw_test_pair(self, is_positive):
+
+        while True:
+
+            first_idx = np.random.randint(0, self.num_test_instances, size=1)[0]
+            second_idx = np.random.randint(0, self.num_test_instances, size=1)[0]
+
+            if is_positive:
+                if np.array_equal(self.Y_test[first_idx], self.Y_test[second_idx]):
+                    return first_idx, second_idx
+            else:
+                if not np.array_equal(self.Y_test[first_idx], self.Y_test[second_idx]):
+                    return first_idx, second_idx
+
     # retreive the series of the pair idxs
     def retrieve_series_content(self, pair_idxs, max_length):
 
@@ -178,3 +197,4 @@ class Dataset:
         X[1][:series_length] = np.expand_dims(self.X_train[pair_idxs[1]], axis=-1)
 
         return X
+
